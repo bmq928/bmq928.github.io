@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Upload — Post Videos to TikTok Effortlessly</title>
+  <meta name="description" content="Auto Upload lets you upload and post your videos to TikTok quickly and securely.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0d0e14;
+      --cyan: #25F4EE;
+      --pink: #FE2C55;
+      --muted: rgba(255,255,255,0.72);
+      --border: rgba(255,255,255,0.09);
+      --surface: rgba(255,255,255,0.04);
+      --grad: linear-gradient(90deg, #25F4EE, #FE2C55);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: #ffffff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(13,14,20,0.55);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand img { width: 36px; height: 36px; border-radius: 9px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 28px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.15s ease;
+    }
+    nav a:hover { color: var(--cyan); }
+    @media (max-width: 640px) {
+      nav a:not(.nav-cta) { display: none; }
+    }
+
+    /* ---------- FULL SCREEN HERO ---------- */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px 5% 80px;
+      overflow: hidden;
+    }
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: 0.32;
+      pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .glow-1 { width: 520px; height: 520px; top: -140px; left: -120px; background: var(--cyan); }
+    .glow-2 { width: 560px; height: 560px; bottom: -160px; right: -140px; background: var(--pink); animation-delay: -6s; }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(60px, 40px) scale(1.12); }
+    }
+    .hero-badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      backdrop-filter: blur(6px);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 30px;
+      animation: rise 0.7s ease both;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+    h1 {
+      position: relative;
+      font-size: clamp(2.6rem, 7vw, 4.8rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      max-width: 900px;
+      margin-bottom: 26px;
+      animation: rise 0.7s 0.08s ease both;
+    }
+    h1 span {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .tagline {
+      position: relative;
+      font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 44px;
+      animation: rise 0.7s 0.16s ease both;
+    }
+    .cta-row {
+      position: relative;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: rise 0.7s 0.24s ease both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .btn {
+      display: inline-block;
+      padding: 15px 34px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.02rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--grad);
+      color: #0d0e14;
+      box-shadow: 0 8px 30px rgba(254,44,85,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 38px rgba(37,244,238,0.35); }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: #fff;
+    }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 9px); }
+    }
+
+    /* ---------- SECTIONS BELOW THE FOLD ---------- */
+    section.strip { max-width: 1050px; margin: 0 auto; padding: 90px 5%; }
+    .kicker { color: var(--pink); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em; }
+    h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); margin: 6px 0 40px; }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+    }
+    .step {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 30px 26px;
+    }
+    .step b {
+      display: inline-block;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .step h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .step p { color: var(--muted); font-size: 0.94rem; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .feature:hover { transform: translateY(-4px); border-color: var(--cyan); }
+    .feature div {
+      width: 42px; height: 42px; border-radius: 11px;
+      background: var(--grad);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      margin-bottom: 16px;
+    }
+    .feature h3 { margin-bottom: 10px; font-size: 1.08rem; }
+    .feature p { color: var(--muted); font-size: 0.93rem; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 36px 5%;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    footer a { color: #ffffff; margin: 0 14px; text-decoration: none; }
+    footer a:hover { color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a class="brand" href="./">
+      <img src="assets/favicon.svg" alt="Auto Upload app icon"> Auto Upload
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a class="nav-cta btn btn-primary" style="padding:9px 22px;font-size:0.9rem;" href="mailto:bmq928@gmail.com?subject=Auto%20Upload%20Access%20Request">Get Started</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <span class="hero-badge"><span class="dot"></span> Powered by the official TikTok API</span>
+    <h1>Post your videos to TikTok with <span>Auto Upload</span></h1>
+    <p class="tagline">
+      Auto Upload is the simple tool for creators: connect your TikTok account,
+      pick your video, and publish it in seconds — no manual re-uploading.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:bmq928@gmail.com?subject=Auto%20Upload%20Access%20Request">Get Auto Upload</a>
+      <a class="btn btn-ghost" href="#how">See How It Works</a>
+    </div>
+
+    <a class="scroll-hint" href="#how">&#8595;&nbsp; Scroll</a>
+  </section>
+
+  <section class="strip" id="how">
+    <div class="kicker">Simple by design</div>
+    <h2>Three steps. That's it.</h2>
+    <div class="steps">
+      <div class="step">
+        <b>01</b>
+        <h3>Connect</h3>
+        <p>Link your TikTok account securely through TikTok's official login — we never see your password.</p>
+      </div>
+      <div class="step">
+        <b>02</b>
+        <h3>Select</h3>
+        <p>Pick any video from your device and add a caption before it goes out.</p>
+      </div>
+      <div class="step">
+        <b>03</b>
+        <h3>Publish</h3>
+        <p>Post instantly or schedule for later. Auto Upload handles the rest.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="strip" id="features" style="padding-top:0;">
+    <div class="kicker">Why Auto Upload</div>
+    <h2>Built for creators</h2>
+    <div class="features">
+      <div class="feature">
+        <div>&#9889;</div>
+        <h3>One-Tap Posting</h3>
+        <p>Select any video and publish it directly to your TikTok account through the official TikTok API.</p>
+      </div>
+      <div class="feature">
+        <div>&#128337;</div>
+        <h3>Scheduled Uploads</h3>
+        <p>Queue videos and let Auto Upload post them at the best time for your audience.</p>
+      </div>
+      <div class="feature">
+        <div>&#128274;</div>
+        <h3>Secure by Design</h3>
+        <p>Auto Upload only requests the TikTok permissions it needs, and you can revoke access any time.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Auto Upload. All rights reserved.</p>
+    <p style="margin-top:12px;">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="mailto:bmq928@gmail.com">bmq928@gmail.com</a>
+      <a href="../">BMQ928 Home</a>
+    </p>
+  </footer>
+
+</body>
+</html>
